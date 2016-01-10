@@ -20,14 +20,8 @@ along with BTFS.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BTFS_H
 #define BTFS_H
 
-#include <vector>
-#include <list>
-#include <fstream>
-
-#include "libtorrent/config.hpp"
 #include <libtorrent/peer_request.hpp>
-
-#include "btfsstat.h"
+#include <libtorrent/session_settings.hpp>
 
 namespace btfs
 {
@@ -58,9 +52,7 @@ private:
 class Read
 {
 public:
-	Read(char *buf, int index, off_t offset, size_t size);
-
-	void fail(int piece);
+	Read(char *buf, int index, int offset, int size);
 
 	void copy(int piece, char *buffer, int size);
 
@@ -73,8 +65,6 @@ public:
 	int read();
 
 private:
-	bool failed = false;
-
 	std::vector<Part> parts;
 };
 
@@ -88,7 +78,7 @@ public:
 		free(buf);
 	}
 
-	bool expand(size_t n) {
+	bool expand(int n) {
 		return (buf = (char *) realloc((void *) buf, size += n)) != NULL;
 	}
 
@@ -117,18 +107,29 @@ private:
 	std::string path;
 };
 
+enum {
+	KEY_VERSION,
+	KEY_HELP,
+};
+
+struct proxy_type {
+	const char *libcurl_name;
+	libtorrent::proxy_settings::proxy_type libtorrent_type;
+};
+
+proxy_type proxy_types[] = {
+	{"socks5h", libtorrent::proxy_settings::socks5},
+	{"socks5", libtorrent::proxy_settings::socks5},
+	{"http", libtorrent::proxy_settings::http}
+};
+
 struct btfs_params {
 	int version;
 	int help;
-	int help_fuse;
 	int browse_only;
 	int keep;
-	int utp_only;
-	char *data_directory;
-	int min_port;
-	int max_port;
-	int max_download_rate;
-	int max_upload_rate;
+	const char *proxy;
+	const char *proxy_type;
 	const char *metadata;
 };
 
