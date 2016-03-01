@@ -33,6 +33,10 @@ Use [`brew`](https://brew.sh) to install on macOS.
 
     $ brew install btfs
 
+## Installing on OS X
+
+BTFS is known to work on Apple's OS X. See [pull request #5](https://github.com/johang/btfs/pull/5) for more information.
+
 ## Dependencies (on Linux)
 
 * fuse ("fuse" in Ubuntu 16.04)
