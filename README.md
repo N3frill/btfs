@@ -48,6 +48,10 @@ Open the file `configure.ac` and replace `fuse >= 2.8.0` with `fuse >= 2.7.3` (*
     $ make
     $ sudo make install
 
+## Installing on OS X
+
+BTFS is known to work on Apple's OS X. See [pull request #5](https://github.com/johang/btfs/pull/5) for more information.
+
 ## Dependencies (on Linux)
 
 * fuse ("fuse" in Ubuntu 16.04)
