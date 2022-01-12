@@ -15,25 +15,33 @@ To unmount and shutdown:
 
     $ fusermount -u mnt
 
-## Installing on a recent Ubuntu (Xenial, Wily, Vivid or Trusty)
+## Installing on Debian/Ubuntu
 
-    $ sudo add-apt-repository ppa:johang/btfs
-    $ sudo apt-get update
-    $ sudo apt-get install btfs
+    # apt-get install btfs
 
 ## Installing on Arch Linux
 
-    $ sudo pacman -S btfs
+    # pacman -S btfs
+
+## Installing on Gentoo
+
+    # emerge -av btfs
+
+## Installing on macOS
+
+Use [`brew`](https://brew.sh) to install on macOS.
+
+    $ brew install btfs
 
 ## Dependencies (on Linux)
 
-* fuse ("fuse" in Debian/Ubuntu)
-* libtorrent ("libtorrent-rasterbar7" in Debian/Ubuntu)
-* libcurl ("libcurl3" in Debian/Ubuntu)
+* fuse ("fuse" in Ubuntu 16.04)
+* libtorrent ("libtorrent-rasterbar8" in Ubuntu 16.04)
+* libcurl ("libcurl3" in Ubuntu 16.04)
 
 ## Building from git on a recent Debian/Ubuntu
 
-    $ sudo apt-get install autoconf automake libfuse-dev libtorrent-rasterbar-dev libcurl4-openssl-dev
+    $ sudo apt-get install autoconf automake libfuse-dev libtorrent-rasterbar-dev libcurl4-openssl-dev g++
     $ git clone https://github.com/johang/btfs.git btfs
     $ cd btfs
     $ autoreconf -i
@@ -42,4 +50,19 @@ To unmount and shutdown:
 
 And optionally, if you want to install it:
 
-    $ sudo make install
+    $ make install
+
+## Building on macOS
+
+Use [`brew`](https://brew.sh) to get the dependencies.
+
+    $ brew install Caskroom/cask/osxfuse libtorrent-rasterbar autoconf automake pkg-config
+    $ git clone https://github.com/johang/btfs.git btfs
+    $ cd btfs
+    $ autoreconf -i
+    $ ./configure
+    $ make
+
+And optionally, if you want to install it:
+
+    $ make install
