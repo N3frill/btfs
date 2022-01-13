@@ -1,5 +1,9 @@
 AC_PREREQ([2.69])
+<<<<<<< HEAD
 AC_INIT(btfs, 2.24, johan.gunnarsson@gmail.com, btfs, https://github.com/johang/btfs)
+=======
+AC_INIT(btfs, 2.21, johan.gunnarsson@gmail.com, btfs, https://github.com/johang/btfs)
+>>>>>>> parent of 3b5e4a8 (2.22)
 AC_CONFIG_SRCDIR([src/btfs.cc])
 
 AM_INIT_AUTOMAKE
