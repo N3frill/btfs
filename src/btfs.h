@@ -20,8 +20,14 @@ along with BTFS.  If not, see <http://www.gnu.org/licenses/>.
 #ifndef BTFS_H
 #define BTFS_H
 
+#include <vector>
+#include <list>
+#include <fstream>
+
+#include "libtorrent/config.hpp"
 #include <libtorrent/peer_request.hpp>
-#include <libtorrent/session_settings.hpp>
+
+#include "btfsstat.h"
 
 namespace btfs
 {
@@ -52,7 +58,9 @@ private:
 class Read
 {
 public:
-	Read(char *buf, int index, int offset, int size);
+	Read(char *buf, int index, off_t offset, size_t size);
+
+	void fail(int piece);
 
 	void copy(int piece, char *buffer, int size);
 
@@ -65,6 +73,8 @@ public:
 	int read();
 
 private:
+	bool failed = false;
+
 	std::vector<Part> parts;
 };
 
@@ -78,7 +88,7 @@ public:
 		free(buf);
 	}
 
-	bool expand(int n) {
+	bool expand(size_t n) {
 		return (buf = (char *) realloc((void *) buf, size += n)) != NULL;
 	}
 
@@ -107,34 +117,18 @@ private:
 	std::string path;
 };
 
-enum {
-	KEY_VERSION,
-	KEY_HELP,
-};
-
-std::map<std::string, libtorrent::proxy_settings::proxy_type> libtorrent_proxy_types = {
-	{"socks4", libtorrent::proxy_settings::socks4},
-	{"socks5h", libtorrent::proxy_settings::socks5},
-	{"socks5", libtorrent::proxy_settings::socks5},
-	{"http", libtorrent::proxy_settings::http}
-};
-
-std::map<libtorrent::proxy_settings::proxy_type, libtorrent::proxy_settings::proxy_type> libtorrent_authed_proxy_types = {
-	{libtorrent::proxy_settings::socks5, libtorrent::proxy_settings::socks5_pw},
-	{libtorrent::proxy_settings::http, libtorrent::proxy_settings::http_pw}
-};
-
 struct btfs_params {
 	int version;
 	int help;
+	int help_fuse;
 	int browse_only;
 	int keep;
-	const char *proxy_hostname;
-	int proxy_port;
-	const char *proxy_type;
-	const char *proxy_username;
-	const char *proxy_password;
-	const char *i2p_http_proxy;
+	int utp_only;
+	char *data_directory;
+	int min_port;
+	int max_port;
+	int max_download_rate;
+	int max_upload_rate;
 	const char *metadata;
 };
 
